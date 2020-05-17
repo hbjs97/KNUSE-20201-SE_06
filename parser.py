@@ -11,7 +11,6 @@ passwd = input('passwd: ')
 driver.find_element_by_name('user.usr_id').send_keys(id)
 driver.find_element_by_name('user.passwd').send_keys(passwd)
 driver.find_element_by_xpath('//*[@id="loginBtn"]').click()
-time.sleep(1)
 
 #상담페이지
 driver.get('https://yes.knu.ac.kr/stud/smar/advcStu/stuAdvcAll/list.action')
@@ -28,10 +27,9 @@ print(cnt)  #총 상담횟수: cnt
 
 #성적페이지
 driver.get('https://yes.knu.ac.kr/cour/scor/certRec/certRecEnq/list.action')
-time.sleep(1)
+time.sleep(2)
 html = driver.page_source
 soup = bs(html, 'html.parser')
-time.sleep(1)
 
 #파싱
 data = soup.find('div', {'id': 'content'})
