@@ -21,8 +21,8 @@ soup_consult = bs(html_consult, 'html.parser')
 #파싱
 data_consult = soup_consult.find('table', {'class': 'form4'})
 tmp1 = data_consult.find('td', {'style': 'color:red;font-weight: bold;'})
-cnt = tmp1.getText()
-print(cnt)  #총 상담횟수: cnt
+consult = tmp1.getText()
+print(consult)  #총 상담횟수
 
 
 #성적페이지
