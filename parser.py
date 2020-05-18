@@ -46,32 +46,16 @@ print(stud_info)
 #전체성적//data2, list2
 data2 = data.find('div', {'id': 'certRecEnqGrid'})
 list2 = data2.findAll('td')
-data2_num = data2.find('div', {'class': 'data'})
-list2_year = data2_num.findAll('td', {'class': 'yr_trm'})
-list2_sub = data2_num.findAll('td', {'class': 'subj_div_cde'})
-list2_code = data2_num.findAll('td', {'class': 'subj_cde'})
-list2_name = data2_num.findAll('td', {'subj_nm'})
-list2_score = data2_num.findAll('td', {'class': 'unit'})
-list2_grade = data2_num.findAll('td', {'class': 'rec_rank_cde'})
+score_info = []
+group_num = int(len(list2)/7)
+i = 0
+for j in range(0, group_num):
+    score_info.append([list2[i].text,
+                       list2[i+1].text,
+                       list2[i+2].text,
+                       list2[i+3].text,
+                       list2[i+4].text,
+                       list2[i+5].text])
+    i = i+7
 
-score_info_year = []
-score_info_sub = []
-score_info_code = []
-score_info_name = []
-score_info_score = []
-score_info_grade = []
-
-for i in range(0, len(list2_year)):
-    score_info_year.append(list2_year[i].getText()),
-    score_info_sub.append(list2_sub[i].getText()),
-    score_info_code.append(list2_code[i].getText()),
-    score_info_name.append(list2_name[i].getText()),
-    score_info_score.append(list2_score[i].getText()),
-    score_info_grade.append(list2_grade[i].getText())
-
-print(score_info_year)
-print(score_info_sub)
-print(score_info_code)
-print(score_info_name)
-print(score_info_score)
-print(score_info_grade)
+print(score_info)
