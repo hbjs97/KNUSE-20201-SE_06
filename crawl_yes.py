@@ -11,7 +11,7 @@ options.add_argument('headless')
 
 driver = webdriver.Chrome('./chromedriver', options = options)
 
-# 로그인
+# 로그인 - 실패 시 오류 처리 구현 필요
 url = 'https://yes.knu.ac.kr/'
 
 user_id = input('ID: ')
@@ -20,7 +20,6 @@ user_pw = input('PW: ')
 session = requests.session()
 
 res = session.post(url + 'comm/comm/support/login/login.action', data = {'user.usr_id': user_id, 'user.passwd': user_pw})
-
 res.raise_for_status()
 
 driver.get(url)
@@ -28,7 +27,7 @@ for c in session.cookies:
 	driver.add_cookie({'name': c.name, 'value': c.value})
 driver.refresh()
 
-# 성적
+# 학적정보 및 성적
 driver.get(url + 'cour/scor/certRec/certRecEnq/list.action')
 try:
 	WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.data")))
@@ -40,6 +39,13 @@ finally:
 
 soup = BeautifulSoup(html, 'html.parser')
 
+list = soup.select('#studInfo td')
+stuInfo = []
+
+for i in list:
+	stuInfo.append(i.text)
+print(stuInfo)
+
 list = soup.select('#certRecEnqGrid .data')
 scoreList = []
 
@@ -49,9 +55,9 @@ for i in list:
 	subject.append(i.select_one('.subj_div_cde').text)	# 교과구분
 	subject.append(i.select_one('.subj_cde').text)		# 과목코드
 	subject.append(i.select_one('.subj_nm').text)		# 과목명
-	subject.append(i.select_one('.unit').text)		# 학점
+	subject.append(i.select_one('.unit').text)			# 학점
 	subject.append(i.select_one('.rec_rank_cde').text)	# 점수
-	subject.append(i.select_one('.grd').text)		# 평점
+	subject.append(i.select_one('.grd').text)			# 평점
 	scoreList.append(subject)
 del scoreList[0]	# 빈 리스트(구분) 삭제
 
