@@ -1,16 +1,27 @@
-import time
+import mysql.connector
+from mysql.connector import errorcode
+
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import getpass
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--disable-gpu')
 
 driver = webdriver.Chrome("./driver/chromedriver", options=options)
+
+config = {
+    "user": "root",
+    "password": "root",
+    "host": "127.0.0.1",
+    "database": "hbjs",
+    "port": "3306"
+}
 
 #로그인
 driver.get('https://yes.knu.ac.kr/comm/comm/support/login/login.action')
@@ -70,3 +81,29 @@ for j in range(0, group_num):
 
 print(score_info)
 driver.quit()
+
+
+try:
+    # db 연결 객체 생성
+    conn = mysql.connector.connect(**config, charset='utf8')
+    # SQL 실행 객체 생성
+    cur = conn.cursor()
+
+    i=0
+    for i in range(i, int(len(list2)/7)):
+        sql = 'INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+        cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], score_info[i][4], score_info[i][5]))
+        conn.commit()
+
+# DB 연결 예외 처리
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print('id or password 오류')
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print('db 연동 오류')
+    else:
+        print('기타 에러:', err)
+    conn.rollback()  # 롤백 처리
+
+finally:
+    conn.close()
