@@ -49,9 +49,9 @@ for i in list:
 	subject.append(i.select_one('.subj_div_cde').text)	# 교과구분
 	subject.append(i.select_one('.subj_cde').text)		# 과목코드
 	subject.append(i.select_one('.subj_nm').text)		# 과목명
-	subject.append(i.select_one('.unit').text)			# 학점
+	subject.append(i.select_one('.unit').text)		# 학점
 	subject.append(i.select_one('.rec_rank_cde').text)	# 점수
-	subject.append(i.select_one('.grd').text)			# 평점
+	subject.append(i.select_one('.grd').text)		# 평점
 	scoreList.append(subject)
 del scoreList[0]	# 빈 리스트(구분) 삭제
 
