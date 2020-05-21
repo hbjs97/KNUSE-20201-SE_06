@@ -6,7 +6,6 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import getpass
 
 def Insert_DB(score_info, list2) :
     config = {
@@ -37,6 +36,39 @@ def Insert_DB(score_info, list2) :
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
+
+def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
+    config = {
+        "user": "root",
+        "password": "root",
+        "host": "127.0.0.1",
+        "database": "hbjs",
+        "port": "3306"
+    }
+    try:
+        conn = mysql.connector.connect(**config)
+        print(conn)
+        # db select, insert, update, delete 작업 객체
+        cur = conn.cursor()
+        # 실행할 select 문 구성
+        sql = "SELECT * FROM test ORDER BY 1 DESC"
+        # cursor 객체를 이용해서 수행한다.
+        cur.execute(sql)
+        # select 된 결과 셋 얻어오기
+        resultList = cur.fetchall()  # tuple 이 들어있는 list
+        print(resultList)
+        # DB 에 저장된 rows 출력해보기
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print('id or password 오류')
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print('db 연동 오류')
+        else:
+            print('기타 에러:', err)
+        conn.rollback()  # 롤백 처리
+    finally :
+        conn.close()
+
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
@@ -100,3 +132,4 @@ for j in range(0, group_num):
 print(score_info)
 driver.quit()
 Insert_DB(score_info, list2)
+Retrieve_DB()
