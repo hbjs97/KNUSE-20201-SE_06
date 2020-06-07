@@ -70,10 +70,12 @@ def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한
         conn.close()
 
 
+# ChromeDriver(https://chromedriver.chromium.org/downloads)가 저장된 경로.
+path = './chromedriver'
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Chrome("./driver/chromedriver", options=options)
+driver = webdriver.Chrome(path, options=options)
 
 #로그인
 driver.get('https://yes.knu.ac.kr/comm/comm/support/login/login.action')
