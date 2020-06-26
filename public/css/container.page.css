@@ -1,0 +1,162 @@
+@charset "utf-8";
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  common  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#container article.box {
+	margin-bottom: 10px; padding: 25px; border: 1px solid #e3e3e3; background-color: #fff;
+}
+#container article.box * {
+	font-size: 14px;
+}
+#container article.box h3 {
+	margin-bottom: 15px; font-size: 24px; font-weight: normal;
+}
+#container article.box form hr {
+	margin-bottom: 25px;
+}
+#container article.box form div.form {
+	display: none;
+}
+#container article.box form p {
+	margin-bottom: 5px; color: #a6a6a6; font-size: 11px; letter-spacing: 0;
+}
+#container article.box form p input.text,
+#container article.box form p textarea {
+	border: 1px solid #e3e3e3; color: #292929; background-color: #f8f8f8; box-sizing: border-box;
+}
+#container article.box form p input.text:focus,
+#container article.box form p textarea:focus {
+	background-color: #fff;
+}
+#container article.box form p input.text {
+	padding: 0 10px; height: 35px; line-height: 35px;
+}
+#container article.box form p input.file {
+	position: absolute; width: 90px; margin-left: -90px; opacity: 0;
+}
+#container article.box form p input.submit {
+	padding: 0 25px; height: 35px; line-height: 35px; border: 0; color: #fff; background-color: #c62917;
+}
+#container article.box form p input.button {
+	padding: 0 10px; height: 35px; line-height: 35px; border: 0; color: #fff; background-color: #737373;
+}
+#container article.box form p input.attach {
+	position: absolute; width: 90px; margin-left: -90px;
+}
+#container article.box form p textarea {
+	padding: 10px; height: 240px; line-height: 150%;
+}
+#container article.box form p label {
+	display: inline-block; margin-bottom: 5px;
+}
+#container article.box form p label input {
+	margin-right: 5px;
+}
+#container article.box hr {
+	height: 0; border: 0; border-bottom: 1px solid #e3e3e3;
+}
+#container article.box a.button {
+	display: inline-block; padding: 0 25px; height: 35px; line-height: 35px; border: 0; color: #fff; background-color: #c62917;
+}
+#container article.point {
+	margin-bottom: 25px;
+}
+#container article.point * {
+	font-size: 14px;
+}
+#container article.point h3 {
+	margin-bottom: 5px; padding: 0 10px; color: #292929; font-size: 15px; font-weight: bold;
+}
+#container article.point ol, #container article.point ul, #container article.point p {
+	padding: 15px; border: 1px solid #e3e3e3; background-color: #fff;
+}
+#container article.point ol li {
+	margin: 5px 0; line-height: 130%; color: #737373;
+}
+#container article.point p {
+	color: #737373; line-height: 150%;
+}
+#container article.point form input {
+	padding: 0 10px; height: 35px; line-height: 35px; border: 1px solid #e3e3e3; background-color: #fff;
+}
+#container article.point form input.text {
+	width: 200px;
+}
+#container article.point form input.submit {
+	border: 0; color: #fff; background-color: #c62917;
+}
+#container article.reviewrequest {
+	display: none;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  pc only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (min-width: 641px) {
+/*	#container article.box ol {
+		float: left;
+	}
+	#container article.box ul {
+		clear: left;
+	}*/
+	#container article.box form {
+		margin: 20px auto; width: 680px;
+	}
+	#container article.box form p input.big,
+	#container article.box form p textarea {
+		width: 100%;
+	}
+	#container article.box form p input.medium {
+		width: 300px;
+	}
+	#container article.box form p input.small {
+		width: 80px;
+	}
+	#container article.box form p label.radio {
+		width: 20%;
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  mobile only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (max-width: 640px) {
+	#container article.box {
+		border-width: 1px 0;
+	}
+	#container article.box form p input.big,
+	#container article.box form p input.medium,
+	#container article.box form p input.submit,
+	#container article.box form p textarea {
+		width: 100%;
+	}
+	#container article.box form p input.small {
+		width: 25%;
+	}
+	#container article.box form p label.radio {
+		width: 50%; line-height: 25px;
+	}
+	#container article.point ol, #container article.point p {
+		border-width: 1px 0;
+	}
+	#container article.point form {
+		padding: 0 10px;
+	}
+	#container article.reviewrequest {
+		position: fixed; z-index: 95; left: 0; bottom: 0; width: 100%; height: 100%;
+		text-align: center; background-color: #fff;
+	}
+	#container article.reviewrequest h3 {
+		margin: 90px 0 10px 0; height: 20px; color: #c62917; font-size: 20px; font-weight: normal;
+	}
+	#container article.reviewrequest p {
+		margin-bottom: 40px; height: 15px; color: #292929; font-size: 13px;
+	}
+	#container article.reviewrequest a.button {
+		display: block; margin: 0 15px 5px 15px; height: 40px; line-height: 40px; font-size: 15px;
+	}
+	#container article.reviewrequest a.button.review {
+		color: #fff; background-color: #c62917;
+	}
+	#container article.reviewrequest a.button.close {
+		border: 1px solid #c62917; color: #c62917;
+	}
+}

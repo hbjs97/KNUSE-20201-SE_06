@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+@font-face {
+	font-family: 'NanumSquare';
+	src: url(NanumSquareR.eot);
+	src: url(NanumSquareRd41d.eot?#iefix) format('embedded-opentype'),
+		url(NanumSquareR.woff) format('woff'),
+		url(NanumSquareR.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'NanumSquareEB';
+	src: url('NanumSquareEB.eot');
+	src: url('NanumSquareEBd41d.eot?#iefix') format('embedded-opentype'),
+		url(NanumSquareEB.woff) format('woff'),
+		url(NanumSquareEB.ttf) format('truetype');
+}
