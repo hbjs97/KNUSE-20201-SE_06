@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  common  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#container div.type {
+	margin-bottom: 25px;
+}
+#container div.type h3 {
+	margin-bottom: 5px; padding: 0 10px; color: #292929; font-size: 15px; font-weight: bold;
+}
+#container div.type > ul,
+#container div.type dl {
+	background-color: #fff;
+}
+#container div.type > ul li,
+#container div.type dl dt {
+	border-bottom: 1px solid #e3e3e3;
+	background-repeat: no-repeat; background-position: right center; background-position: right 10px center; cursor: pointer;
+}
+#container div.type > ul li {
+	padding: 15px;
+}
+#container div.type > ul li:hover {
+	background-color: #f8f8f8;
+}
+#container div.type > ul li h4 {
+	margin-bottom: 5px; color: #292929; font-size: 15px;
+}
+#container div.type > ul li p {
+	color: #737373; font-size: 13px;
+}
+#container div.type dl dt {
+	padding: 15px 25px 15px 10px; line-height: 20px; color: #292929; font-size: 14px;
+}
+#container div.type dl dt.active {
+	color: #c62917; font-weight: bold;
+}
+#container div.type dl dd {
+	display: none; padding: 15px; border-bottom: 1px solid #d6d6d6; line-height: 140%; background-color: #f2f2f2;
+}
+#container div.type dl dd,
+#container div.type dl dd * {
+	color: #292929; font-size: 14px;
+}
+#container div.type dl dd h4,
+#container div.type dl dd p,
+#container div.type dl dd ul {
+	margin-bottom: 10px;
+}
+#container div.type dl dd ul li {
+	list-style: disc; margin-left: 20px;
+}
+#container div.type dl dd a {
+	color: #0ca5af; font-weight: bold;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  pc only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (min-width: 641px) {
+	#container div.type > ul,
+	#container div.type dl {
+		border: 1px solid #e3e3e3; border-width: 1px 1px 0 1px;
+	}
+	#container div.type > ul li,
+	#container div.type dl dt {
+		background-image: url('../images/container.faq.question.icon.png');
+	}
+	#container div.type dl dt.active {
+		background-image: url('../images/container.faq.question.icon.active.png');
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  mobile only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (max-width: 640px) {
+	#container div.type > ul,
+	#container div.type dl {
+		border-top: 1px solid #e3e3e3;
+	}
+	#container div.type > ul li,
+	#container div.type dl dt {
+		background-image: url('../images/container.faq.question.icon.big.png'); background-size: 15px 15px;
+		-webkit-tap-highlight-color: transparent;
+	}
+	#container div.type dl dt.active {
+		background-image: url('../images/container.faq.question.icon.big.active.png');
+	}
+}
