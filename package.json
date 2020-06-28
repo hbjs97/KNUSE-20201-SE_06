@@ -19,6 +19,8 @@
     "express-session": "^1.17.1",
     "mariadb": "^2.4.0",
     "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "pbkdf2-password": "^1.2.1",
     "python-shell": "^2.0.1",
     "selenium-webdriver": "^4.0.0-alpha.7"
