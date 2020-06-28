@@ -10,11 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 config = {
-        "user": "root",
-        "password": "root",
-        "host": "127.0.0.1",
+        "user": "software",
+        "password": "1q2w3e4r!",
+        "host": "lunapreya.ddns.net",
         "database": "hbjs",
-        "port": "3306"
+        "port": "3307"
     }
 
 def Insert_DB(score_info, list2) :
