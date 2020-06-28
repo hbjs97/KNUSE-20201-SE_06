@@ -1,4 +1,5 @@
 import mysql.connector
+import sys
 import requests
 from mysql.connector import errorcode
 from bs4 import BeautifulSoup as bs
@@ -69,8 +70,10 @@ options.add_argument('--disable-gpu')
 driver = webdriver.Chrome("./driver/chromedriver", options=options)
 
 #로그인
-id = input('ID: ')
-passwd = input('passwd: ')
+#id = input('ID: ')
+#passwd = input('passwd: ')
+id = sys.argv[1]
+passwd = sys.argv[2]
 session = requests.session()
 res = session.post('https://yes.knu.ac.kr/comm/comm/support/login/login.action',
                    data={'user.usr_id': id, 'user.passwd': passwd})
