@@ -22,10 +22,9 @@ def Insert_DB(score_info, list2) :
         conn = mysql.connector.connect(**config, charset='utf8')
         # SQL 실행 객체 생성
         cur = conn.cursor()
-        i=0
         for i in range(0, len(list2)-1):
             sql = 'INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], score_info[i][4], score_info[i][5], score_info[i][6]))
+            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
