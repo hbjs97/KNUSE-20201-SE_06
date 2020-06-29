@@ -24,6 +24,7 @@ def Create_DB():
         print("Creating table test: ")
         sql = (
         "CREATE TABLE test ("
+        " login_id VARCHAR(50),"
         " id VARCHAR(50),"
         " stud_name VARCHAR(50),"
         " major VARCHAR(50),"
@@ -45,15 +46,15 @@ def Create_DB():
     else:
         print("OK")
 
-def Insert_DB(score_info, list2) :
+def Insert_DB(score_info, list2, login_id) :
     try :
         # db 연결 객체 생성
         conn = mysql.connector.connect(**config, charset='utf8')
         # SQL 실행 객체 생성
         cur = conn.cursor()
         for i in range(0, len(list2)-1):
-            sql = 'INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
+            sql = 'INSERT INTO test (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+            cur.execute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
@@ -156,5 +157,5 @@ del score_info[0]  # 빈 리스트(구분) 삭제
 driver.quit()
 
 Create_DB()
-Insert_DB(score_info, list2)
+Insert_DB(score_info, list2, id)
 Retrieve_DB()
