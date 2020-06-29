@@ -17,27 +17,27 @@ config = {
         "port": "3307"
     }
 
-def Create_DB():
+def Create_DB(tbl_name):
     try:
         conn = mysql.connector.connect(**config, charset='utf8')
         cur = conn.cursor()
         print("Creating table test: ")
-        sql = (
-        "CREATE TABLE test ("
-        " login_id VARCHAR(50),"
-        " id VARCHAR(50),"
-        " stud_name VARCHAR(50),"
-        " major VARCHAR(50),"
-        " state VARCHAR(50),"
-        " course VARCHAR(50),"
-        " year VARCHAR(50),"
-        " subject VARCHAR(50),"
-        " code VARCHAR(50),"
-        " sub_name VARCHAR(50),"
-        " score INT(11),"
-        " grade VARCHAR(50),"
-        " grade_num VARCHAR(50) );")
-        cur.execute(sql)
+        cur.execute(
+            '''CREATE TABLE {tab} (
+             login_id VARCHAR(50),
+             id VARCHAR(50),
+             stud_name VARCHAR(50),
+             major VARCHAR(50),
+             state VARCHAR(50),
+             course VARCHAR(50),
+             year VARCHAR(50),
+             subject VARCHAR(50),
+             code VARCHAR(50),
+             sub_name VARCHAR(50),
+             score INT(11),
+             grade VARCHAR(50),
+             grade_num VARCHAR(50) );'''.format(tab=tbl_name)
+        )
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
             print("already exists.")
@@ -53,42 +53,49 @@ def Insert_DB(score_info, list2, login_id) :
         # SQL 실행 객체 생성
         cur = conn.cursor()
         for i in range(0, len(list2)-1):
-            sql = 'INSERT INTO test (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+            sql = '''INSERT INTO {tab} (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''.format(tab=login_id)
             cur.execute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            #print('id or password 오류')
+            print('id or password 오류')
+            for i in range(0, len(list2) - 1):
+                sql = (
+                    '''UPDATE {tab} SET login_id=%s, id=%s, stud_name=%s, major=%s, state=%s, course=%s, year=%s, subject=%s, code=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s);'''.format(tab=login_id))
+                cur.excute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0],
+                                 score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]),
+                                 score_info[i][5], score_info[i][6]))
+                conn.commit()
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            #print('db 연동 오류')
+            print('db 연동 오류')
         else:
-            #print('기타 에러:', err)
+            print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
 
-def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
+def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
     try:
         conn = mysql.connector.connect(**config)
-        #print(conn)
+        print(conn)
         # db select, insert, update, delete 작업 객체
         cur = conn.cursor()
         # 실행할 select 문 구성
-        sql = "SELECT * FROM test ORDER BY 1 DESC"
+        sql = '''SELECT * FROM {tab} ORDER BY 1 DESC'''.format(tab=tbl_name)
         # cursor 객체를 이용해서 수행한다.
         cur.execute(sql)
         # select 된 결과 셋 얻어오기
         resultList = cur.fetchall()  # tuple 이 들어있는 list
-        #print(resultList)
+        print(resultList)
         # DB 에 저장된 rows 출력해보기
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            #print('id or password 오류')
+            print('id or password 오류')
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            #print('db 연동 오류')
+            print('db 연동 오류')
         else:
-            #print('기타 에러:', err)
+            print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -156,6 +163,6 @@ del score_info[0]  # 빈 리스트(구분) 삭제
 #print(score_info)
 driver.quit()
 
-Create_DB()
+Create_DB(id)
 Insert_DB(score_info, list2, id)
-Retrieve_DB()
+#Retrieve_DB()
