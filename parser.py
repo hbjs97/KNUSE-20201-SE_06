@@ -1,4 +1,5 @@
 import mysql.connector
+import sys
 import requests
 from mysql.connector import errorcode
 from bs4 import BeautifulSoup as bs
@@ -9,11 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 config = {
-        "user": "root",
-        "password": "root",
-        "host": "127.0.0.1",
+        "user": "software",
+        "password": "1q2w3e4r!",
+        "host": "lunapreya.ddns.net",
         "database": "hbjs",
-        "port": "3306"
+        "port": "3307"
     }
 
 def Insert_DB(score_info, list2) :
@@ -22,10 +23,9 @@ def Insert_DB(score_info, list2) :
         conn = mysql.connector.connect(**config, charset='utf8')
         # SQL 실행 객체 생성
         cur = conn.cursor()
-        i=0
         for i in range(0, len(list2)-1):
             sql = 'INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], score_info[i][4], score_info[i][5], score_info[i][6]))
+            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
@@ -63,15 +63,18 @@ def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
-        
+
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Chrome("./driver/chromedriver", options=options)
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+driver = webdriver.Chrome("./home/node/app/drivers/chromedriver", options=options)
 
 #로그인
-id = input('ID: ')
-passwd = input('passwd: ')
+id = sys.argv[0]
+passwd = sys.argv[1]
 session = requests.session()
 res = session.post('https://yes.knu.ac.kr/comm/comm/support/login/login.action',
                    data={'user.usr_id': id, 'user.passwd': passwd})
