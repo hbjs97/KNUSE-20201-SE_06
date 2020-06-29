@@ -17,6 +17,34 @@ config = {
         "port": "3307"
     }
 
+def Create_DB():
+    try:
+        conn = mysql.connector.connect(**config, charset='utf8')
+        cur = conn.cursor()
+        print("Creating table test: ")
+        sql = (
+        "CREATE TABLE test ("
+        " id VARCHAR(50),"
+        " stud_name VARCHAR(50),"
+        " major VARCHAR(50),"
+        " state VARCHAR(50),"
+        " course VARCHAR(50),"
+        " year VARCHAR(50),"
+        " subject VARCHAR(50),"
+        " code VARCHAR(50),"
+        " sub_name VARCHAR(50),"
+        " score INT(11),"
+        " grade VARCHAR(50),"
+        " grade_num VARCHAR(50) );")
+        cur.execute(sql)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print("already exists.")
+        else:
+            print(err.msg)
+    else:
+        print("OK")
+
 def Insert_DB(score_info, list2) :
     try :
         # db 연결 객체 생성
@@ -127,5 +155,6 @@ del score_info[0]  # 빈 리스트(구분) 삭제
 #print(score_info)
 driver.quit()
 
+Create_DB()
 Insert_DB(score_info, list2)
 Retrieve_DB()
