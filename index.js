@@ -28,7 +28,9 @@ app.use(express.static('public'));
 //bodyparser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use('/login', require('./router/login'));
+var login = require('./router/login')(app);
+app.use('/login', login);
+//app.use('/login', require('./router/login'));
 app.use('/parser', require('./router/parser'));
 app.use(session({
     secret: '1q2w3e4r!$$',

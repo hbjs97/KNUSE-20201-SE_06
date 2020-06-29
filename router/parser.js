@@ -1,3 +1,5 @@
+//parsinglogin page에서 사용함.
+
 var express = require('express');
 var router = express.Router();
 var PythonShell = require('python-shell');
@@ -8,10 +10,8 @@ var options ={
     scriptPath: '',
     args: []
 };
-
-
 router.get('/',function (req,res) {
-    res.render('faq.html');
+    res.render('parsinglogin.html');
 });
 
 router.post('/', function (req, res) {
@@ -22,7 +22,6 @@ router.post('/', function (req, res) {
     PythonShell.PythonShell.run('/home/node/app/parser.py', options, function(err, result){
         if(err)
             console.log(err);
-
     });
 
 
