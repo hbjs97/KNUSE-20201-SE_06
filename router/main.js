@@ -5,9 +5,10 @@ module.exports = function(app, fs) {
     app.get('/register', function (req, res) {
         res.render('register.html');
     });
-    /*app.get('/login', function (req, res) {
-        res.render('login.html');
+    app.get('/faq', function (req, res) {
+        res.render('faq.html');
     });
+    /*
     app.post('/login', function (req, res) {
         console.log(req.body.userid);
        // console.log('in');

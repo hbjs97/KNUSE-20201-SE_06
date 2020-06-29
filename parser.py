@@ -30,11 +30,11 @@ def Insert_DB(score_info, list2) :
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password 오류')
+            #print('id or password 오류')
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db 연동 오류')
+            #print('db 연동 오류')
         else:
-            print('기타 에러:', err)
+            #print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -42,7 +42,7 @@ def Insert_DB(score_info, list2) :
 def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
     try:
         conn = mysql.connector.connect(**config)
-        print(conn)
+        #print(conn)
         # db select, insert, update, delete 작업 객체
         cur = conn.cursor()
         # 실행할 select 문 구성
@@ -51,27 +51,28 @@ def Retrieve_DB():  #지금은 출력, 파라미터와 리턴수정해 필요한
         cur.execute(sql)
         # select 된 결과 셋 얻어오기
         resultList = cur.fetchall()  # tuple 이 들어있는 list
-        print(resultList)
+        #print(resultList)
         # DB 에 저장된 rows 출력해보기
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password 오류')
+            #print('id or password 오류')
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db 연동 오류')
+            #print('db 연동 오류')
         else:
-            print('기타 에러:', err)
+            #print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
-        
+
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Chrome("./driver/chromedriver", options=options)
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+driver = webdriver.Chrome("./home/node/app/drivers/chromedriver", options=options)
 
 #로그인
-#id = input('ID: ')
-#passwd = input('passwd: ')
 id = sys.argv[1]
 passwd = sys.argv[2]
 session = requests.session()
@@ -89,7 +90,7 @@ res = session.post('https://yes.knu.ac.kr/stud/smar/advcStu/stuAdvcAll/list.acti
 html = res.text
 soup = bs(html, 'html.parser')
 advc = soup.select_one('.form4 td').text
-print('상담 : ' + advc)
+#print('상담 : ' + advc)
 
 #성적페이지
 driver.get('https://yes.knu.ac.kr/cour/scor/certRec/certRecEnq/list.action')
@@ -97,7 +98,7 @@ try:
     WebDriverWait(driver, 10).until(
          EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.title")))
 except TimeoutException:
-    print("Time out")
+    #print("Time out")
 html = driver.page_source
 soup = bs(html, 'html.parser')
 
@@ -107,7 +108,7 @@ stud_info = []
 for i in list1:
     stud_info.append(i.text)
 #stud_info[0~4] : 학번, 이름, 학과, 학적상태, 과정구분
-print(stud_info)
+#print(stud_info)
 
 list2 = soup.select('#certRecEnqGrid .data')
 score_info = []
@@ -123,7 +124,7 @@ for i in list2:
     score_info.append(subject)
 del score_info[0]  # 빈 리스트(구분) 삭제
 
-print(score_info)
+#print(score_info)
 driver.quit()
 
 Insert_DB(score_info, list2)
