@@ -171,7 +171,3 @@ driver.quit()
 Create_DB(id)
 Insert_DB(score_info, list2, id)
 #Retrieve_DB(id)
-=======
-Create_DB(id)
-Insert_DB(score_info, list2, id)
-#Retrieve_DB()
