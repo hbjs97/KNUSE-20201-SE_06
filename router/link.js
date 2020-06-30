@@ -34,6 +34,17 @@ module.exports = function(app){
             res.render('about.html');
         }
     })
+    app.get('/link/logout', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            req.session.destroy(function (err) { //세션 파괴
+                console.log(err);
+            })
+            res.render('index.html');
+        }
+    });
     app.get('/link/faq', function(req, res){
         if(!req.session.displayName){
             res.render('login.html');
