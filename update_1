@@ -34,7 +34,9 @@ def Create_DB():
         " sub_name VARCHAR(50),"
         " score INT(11),"
         " grade VARCHAR(50),"
-        " grade_num VARCHAR(50) );")
+        " grade_num VARCHAR(50),"
+        " PRIMARY KEY(id, code)"
+        ");")
         cur.execute(sql)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -51,17 +53,20 @@ def Insert_DB(score_info, list2) :
         # SQL 실행 객체 생성
         cur = conn.cursor()
         for i in range(0, len(list2)-1):
-            sql = 'INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
+            sql = ("INSERT INTO test (id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) "
+                   "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) "
+                   "ON DUPLICATE KEY UPDATE "
+                   "stud_name=%s, major=%s, state=%s, course=%s, "
+                   " year=%s, subject=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s")
+            cur.execute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4],
+            score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6],
+            stud_info[1], stud_info[2], stud_info[3], stud_info[4],
+            score_info[i][0], score_info[i][1], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('id or password 오류')
-            for i in range(0, len(list2)-1):
-                sql = ("UPDATE test SET id=%s, stud_name=%s, major=%s, state=%s, course=%s, year=%s, subject=%s, code=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s") 
-                cur.excute(sql, (stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
-                conn.commit()
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print('db 연동 오류')
         else:
