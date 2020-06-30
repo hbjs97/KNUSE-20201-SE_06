@@ -7,7 +7,7 @@ module.exports = function(app, fs) {
             res.render('index.html');
         }
         else{
-            res.render('calculator.html');
+            res.render('faq.html');
         }
     });
     app.get('/register', function (req, res) {
@@ -15,7 +15,7 @@ module.exports = function(app, fs) {
             res.render('register.html');
         }
         else{
-            res.render('calculator.html');
+            res.render('faq.html');
         }
     });
     app.get('/faq', function (req, res) {
@@ -45,12 +45,12 @@ module.exports = function(app, fs) {
     app.get('/password', function (req, res) {
         res.render('password.html');
     });
-    app.get('/calculator', function (req, res){
+    /*app.get('/calculator', function (req, res){
         if(!req.session.displayName){
             res.render('index.html');
         }
         else{
-            res.render('calculator.html');
+            res.render('calculator.ejs',);
         }
-    })
+    })*/
 }

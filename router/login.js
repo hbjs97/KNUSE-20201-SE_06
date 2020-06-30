@@ -27,7 +27,7 @@ module.exports = function(app){
             res.render('login.html');
         }
         else{
-            res.render('calculator.html');
+            res.render('faq.html');
         }
     });
     router.post('/', function (req, res) {
@@ -39,7 +39,7 @@ module.exports = function(app){
                     req.session.displayName = rows[0].id;
 
                     req.session.save(function(){
-                        res.render('calculator.html');
+                        res.render('faqplus.html')
                     })
                     console.log('id : '+ rows[0]['id']);
                     console.log('pw : '+ rows[0]['password']);

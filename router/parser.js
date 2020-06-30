@@ -11,7 +11,7 @@ var options ={
     args: []
 };
 router.get('/',function (req,res) {
-    res.render('parsinglogin.html');
+    res.render('parsinglogin.ejs');
 });
 
 router.post('/', function (req, res) {
