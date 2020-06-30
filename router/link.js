@@ -62,6 +62,22 @@ module.exports = function(app){
             res.render('parsinglogin2.ejs');
         }
     })
+    app.get('/link/graduate', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('graduate.ejs');
+        }
+    })
+    app.get('/link/calculator', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('calculator.ejs');
+        }
+    })
     app.post('/parsinglogin', function (req, res) {
 
         var userID = req.body.userid;

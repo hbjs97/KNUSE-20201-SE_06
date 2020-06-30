@@ -10,12 +10,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 config = {
-        "user": "software",
-        "password": "1q2w3e4r!",
-        "host": "lunapreya.ddns.net",
-        "database": "hbjs",
-        "port": "3307"
-    }
+    "user": "software",
+    "password": "1q2w3e4r!",
+    "host": "lunapreya.ddns.net",
+    "database": "hbjs",
+    "port": "3307"
+}
 
 def Create_DB(tbl_name):
     try:
@@ -36,7 +36,8 @@ def Create_DB(tbl_name):
              sub_name VARCHAR(50),
              score INT(11),
              grade VARCHAR(50),
-             grade_num VARCHAR(50) );'''.format(tab=tbl_name)
+             grade_num VARCHAR(50),
+             PRIMARY KEY(id, code) );'''.format(tab=tbl_name)
         )
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -53,22 +54,22 @@ def Insert_DB(score_info, list2, login_id) :
         # SQL 실행 객체 생성
         cur = conn.cursor()
         for i in range(0, len(list2)-1):
-            sql = '''INSERT INTO {tab} (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''.format(tab=login_id)
+            sql = '''INSERT INTO {tab} (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+            login_id = VALUES(login_id), id = VALUES(id), stud_name=VALUES(stud_name), major=VALUES(major), state=VALUES(state), course=VALUES(course),
+            year=VALUES(year), subject=VALUES(subject), code = VALUES(code), sub_name=VALUES(sub_name), score=VALUES(score), grade=VALUES(grade), grade_num=VALUES(grade_num)
+            '''.format(tab=login_id)
             cur.execute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-
-            for i in range(0, len(list2) - 1):
-                sql = (
-                    '''UPDATE {tab} SET login_id=%s, id=%s, stud_name=%s, major=%s, state=%s, course=%s, year=%s, subject=%s, code=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s);'''.format(tab=login_id))
-                cur.excute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0],
-                                 score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]),
-                                 score_info[i][5], score_info[i][6]))
-                conn.commit()
+            print('id or password 오류')
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-
+            print('db 연동 오류')
+        else:
+            print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -76,7 +77,7 @@ def Insert_DB(score_info, list2, login_id) :
 def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
     try:
         conn = mysql.connector.connect(**config)
-
+        print(conn)
         # db select, insert, update, delete 작업 객체
         cur = conn.cursor()
         # 실행할 select 문 구성
@@ -85,25 +86,17 @@ def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 �
         cur.execute(sql)
         # select 된 결과 셋 얻어오기
         resultList = cur.fetchall()  # tuple 이 들어있는 list
-        conn.rollback()  # 롤백 처리
-    finally :
-        conn.close()
-
-def Update_DB():
-    try:
-        conn = mysql.connector.connect(**config)
-        print(conn)
-        cur = conn.cursor()
-        sql = "UPDATE "
+        print(resultList)
+        # DB 에 저장된 rows 출력해보기
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password error')
+            print('id or password 오류')
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db error')
+            print('db 연동 오류')
         else:
-            print('other error:', err)
+            print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
-    finally:
+    finally :
         conn.close()
 
 options = webdriver.ChromeOptions()
@@ -132,7 +125,7 @@ res = session.post('https://yes.knu.ac.kr/stud/smar/advcStu/stuAdvcAll/list.acti
 html = res.text
 soup = bs(html, 'html.parser')
 advc = soup.select_one('.form4 td').text
-
+#print('상담 : ' + advc)
 
 #성적페이지
 driver.get('https://yes.knu.ac.kr/cour/scor/certRec/certRecEnq/list.action')
@@ -150,7 +143,7 @@ stud_info = []
 for i in list1:
     stud_info.append(i.text)
 #stud_info[0~4] : 학번, 이름, 학과, 학적상태, 과정구분
-
+#print(stud_info)
 
 list2 = soup.select('#certRecEnqGrid .data')
 score_info = []
@@ -166,12 +159,9 @@ for i in list2:
     score_info.append(subject)
 del score_info[0]  # 빈 리스트(구분) 삭제
 
-
+#print(score_info)
 driver.quit()
-Create_DB(id)
-Insert_DB(score_info, list2, id)
-#Retrieve_DB(id)
-=======
+
 Create_DB(id)
 Insert_DB(score_info, list2, id)
 #Retrieve_DB()

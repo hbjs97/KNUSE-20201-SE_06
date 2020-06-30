@@ -31,14 +31,32 @@
   <script type="text/javascript" src="../js/common.js"></script>
   <script type="text/javascript" src="../js/page.faq.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript"> var total1 = <%-results1%>;
+  <script type="text/javascript">
+
+    var total1 = <%-results1%>;
+    if(!total1)
+      total1=0;
     var total2 = <%-results2%>;
+    if(!total2)
+      total2=0;
     var eng1 = <%-results3%>;
+    if(!eng1)
+      eng1=0;
     var eng2 = <%-results4%>;
+    if(!eng2)
+      eng2=0;
     var jun1 = <%-results5%>;
+    if(!jun1)
+      jun1=0;
     var jun2 = <%-results6%>;
+    if(!jun2)
+      jun2=0;
     var gi1 = <%-results7%>;
+    if(!gi1)
+      gi1=0;
     var gi2 = <%-results8%>;
+    if(!gi2)
+      gi2=0;
 </script>
   <script type="text/javascript">
     google.charts.load('current', {'packages':['bar']});
@@ -80,10 +98,10 @@
 
     </div>
     <ul id="menu">
-      <li><a href="about">소개</a></li>
+      <li><a href="../about">소개</a></li>
       <li class ="active"><a href="/link">메인화면</a></li>
-      <li><a href="faq">Q&A</a></li>
-      <li><a href="logout">로그아웃</a></li>
+      <li><a href="../faq">Q&A</a></li>
+      <li><a href="../logout">로그아웃</a></li>
     </ul>
   </div>
 </nav>
@@ -103,7 +121,7 @@
   <div class="wrap">
 
     <div class="type">
-      <h3>내 계정</h3>
+      <h3><%-results1%>,<%-results2%>,<%-results3%>,<%-results4%>,<%-results5%>,<%-results6%>,<%-results7%>,<%-results1%>,></h3>
       <dl>
         <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
       </dl>
