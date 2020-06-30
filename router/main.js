@@ -42,6 +42,17 @@ module.exports = function(app, fs) {
             res.render('forgot.html');
         }
     });
+    app.get('/logout', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            req.session.destroy(function (err) { //세션 파괴
+                console.log(err);
+            })
+            res.render('index.html');
+        }
+    });
     app.get('/password', function (req, res) {
         res.render('password.html');
     });

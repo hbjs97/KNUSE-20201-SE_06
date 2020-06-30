@@ -26,6 +26,22 @@ module.exports = function(app){
             res.render('faqplus.html');
         }
     })
+    app.get('/link/about', function(req, res){
+        if(!req.session.displayName){
+            res.render('login.html');
+        }
+        else{
+            res.render('about.html');
+        }
+    })
+    app.get('/link/faq', function(req, res){
+        if(!req.session.displayName){
+            res.render('login.html');
+        }
+        else{
+            res.render('faq.html');
+        }
+    })
     app.get('/link/parsinglogin', function (req, res) {
         if(!req.session.displayName){
             res.render('login.html');
@@ -56,6 +72,8 @@ module.exports = function(app){
         }
         else{
             console.log(req.session.displayName);
+
+            //mariaDB.query()
             res.render('score.ejs');
         }
     })
