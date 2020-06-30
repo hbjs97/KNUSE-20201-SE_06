@@ -59,7 +59,7 @@ def Insert_DB(score_info, list2, login_id) :
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password 오류')
+
             for i in range(0, len(list2) - 1):
                 sql = (
                     '''UPDATE {tab} SET login_id=%s, id=%s, stud_name=%s, major=%s, state=%s, course=%s, year=%s, subject=%s, code=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s);'''.format(tab=login_id))
@@ -68,9 +68,7 @@ def Insert_DB(score_info, list2, login_id) :
                                  score_info[i][5], score_info[i][6]))
                 conn.commit()
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db 연동 오류')
-        else:
-            print('기타 에러:', err)
+
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -78,7 +76,7 @@ def Insert_DB(score_info, list2, login_id) :
 def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 필요한 데이터 로드.
     try:
         conn = mysql.connector.connect(**config)
-        print(conn)
+
         # db select, insert, update, delete 작업 객체
         cur = conn.cursor()
         # 실행할 select 문 구성
@@ -87,17 +85,25 @@ def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 �
         cur.execute(sql)
         # select 된 결과 셋 얻어오기
         resultList = cur.fetchall()  # tuple 이 들어있는 list
-        print(resultList)
-        # DB 에 저장된 rows 출력해보기
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password 오류')
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db 연동 오류')
-        else:
-            print('기타 에러:', err)
         conn.rollback()  # 롤백 처리
     finally :
+        conn.close()
+
+def Update_DB():
+    try:
+        conn = mysql.connector.connect(**config)
+        print(conn)
+        cur = conn.cursor()
+        sql = "UPDATE "
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print('id or password error')
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print('db error')
+        else:
+            print('other error:', err)
+        conn.rollback()  # 롤백 처리
+    finally:
         conn.close()
 
 options = webdriver.ChromeOptions()
@@ -126,15 +132,15 @@ res = session.post('https://yes.knu.ac.kr/stud/smar/advcStu/stuAdvcAll/list.acti
 html = res.text
 soup = bs(html, 'html.parser')
 advc = soup.select_one('.form4 td').text
-#print('상담 : ' + advc)
+
 
 #성적페이지
 driver.get('https://yes.knu.ac.kr/cour/scor/certRec/certRecEnq/list.action')
 try:
     WebDriverWait(driver, 10).until(
-         EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.title")))
+        EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.title")))
 except TimeoutException:
-    #print("Time out")
+    print("Time out")
 html = driver.page_source
 soup = bs(html, 'html.parser')
 
@@ -144,7 +150,7 @@ stud_info = []
 for i in list1:
     stud_info.append(i.text)
 #stud_info[0~4] : 학번, 이름, 학과, 학적상태, 과정구분
-#print(stud_info)
+
 
 list2 = soup.select('#certRecEnqGrid .data')
 score_info = []
@@ -160,9 +166,12 @@ for i in list2:
     score_info.append(subject)
 del score_info[0]  # 빈 리스트(구분) 삭제
 
-#print(score_info)
-driver.quit()
 
+driver.quit()
+Create_DB(id)
+Insert_DB(score_info, list2, id)
+#Retrieve_DB(id)
+=======
 Create_DB(id)
 Insert_DB(score_info, list2, id)
 #Retrieve_DB()
