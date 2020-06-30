@@ -43,6 +43,7 @@ module.exports = function(app){
                     })
                     console.log('id : '+ rows[0]['id']);
                     console.log('pw : '+ rows[0]['password']);
+                    console.log(rows);
                 }
                 else{
                     console.log('no data');

@@ -6,6 +6,7 @@ module.exports = function(app){
     var express = require('express');
     var router = express.Router();
     var mariaDB = require('./mariadbConn');
+    var mySQL = require('mariadb');
     var session = require('express-session');
     var mySQLStore = require('express-mysql-session');
     var hour = 3600000;
@@ -20,43 +21,119 @@ module.exports = function(app){
 
     app.get('/link', function(req, res){
         if(!req.session.displayName){
-            res.render('login.html');
+            res.render('index.html');
         }
         else{
             res.render('faqplus.html');
         }
     })
+    app.get('/link/about', function(req, res){
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('about.html');
+        }
+    })
+    app.get('/link/logout', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            req.session.destroy(function (err) { //세션 파괴
+                console.log(err);
+            })
+            res.render('index.html');
+        }
+    });
+    app.get('/link/faq', function(req, res){
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('faq.html');
+        }
+    })
     app.get('/link/parsinglogin', function (req, res) {
         if(!req.session.displayName){
-            res.render('login.html');
+            res.render('index.html');
         }
         else{
             res.render('parsinglogin2.ejs');
         }
     })
     app.post('/parsinglogin', function (req, res) {
-        if(!req.session.displayName){
-            res.render('login.html');
-        }
-        else{
-            var userID = req.body.userid;
-            var userPW = req.body.password;
-            options.args[0] = userID;
-            options.args[1] = userPW;
-            PythonShell.PythonShell.run('/home/node/app/parser.py', options, function(err, result){
-                if(err)
-                    console.log(err);
-            });
-            res.render('faqplus.html');
-        }
+
+        var userID = req.body.userid;
+        var userPW = req.body.password;
+        options.args[0] = userID;
+        options.args[1] = userPW;
+        PythonShell.PythonShell.run('/home/node/app/parser.py', options, function(err, result){
+            if(err)
+                console.log(err);
+        });
+        res.render('faqplus.html');
+
     })
     app.get('/link/score', function (req, res) {
+
         if(!req.session.displayName){
-            res.render('login.html');
+            res.render('index.html');
+        }
+        else{
+            var sql1 = 'select sum(score) from '+req.session.displayName +';' +
+                'select sum(score) from '+req.session.displayName+' where subject=?;' +
+                'select sum(score) from '+req.session.displayName+' where subject=?;' +
+                'select sum(score) from '+req.session.displayName+' where subject=? or subject =?;' +
+                'select total from requirement where department=?;' +
+                'select engineering from requirement where department=?;' +
+                'select major from requirement where department=?;' +
+                'select basic from requirement where department=?;';
+
+
+            mariaDB.query(sql1,['공학전공', '전공기반', '기본소양', '교양', 5550, 5550, 5550, 5550], function (err, rows, fields) {
+                if (!err){
+                    if (rows[0]!=undefined){
+                        var value2 = rows[0][0]['sum(score)']; //총 이수학점
+                        var value4 = rows[1][0]['sum(score)'];//공학학점
+                        var value6 = rows[2][0]['sum(score)']; //전공기반
+                        var value8 = rows[3][0]['sum(score)']; //교양
+                        var value1 = rows[4][0]['total'];
+                        var value3 = rows[5][0]['engineering'];
+                        var value5 = rows[6][0]['major'];
+                        var value7 = rows[7][0]['basic'];
+
+                        res.render('score.ejs',{
+                            results1: value1,
+                            results2: value2, //이수학점
+                            results3: value3,
+                            results4: value4, //공학
+                            results5: value5,
+                            results6: value6, //전공기반
+                            results7: value7,
+                            results8: value8 //교양
+                        });
+                    }
+                    else{
+                        console.log('no data');
+                    }
+                }
+                else{
+                    console.log('err: '+ err);
+                    res.render('faqplus.html');
+                }
+            });
+        }
+    })
+    app.get('/link/status', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
         }
         else{
             console.log(req.session.displayName);
-            res.render('score.ejs');
+
+            //mariaDB.query()
+            res.render('status.ejs');
         }
     })
 
