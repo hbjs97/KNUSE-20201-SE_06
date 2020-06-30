@@ -59,7 +59,7 @@ def Insert_DB(score_info, list2, login_id) :
         # DB 연결 예외 처리
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password error')
+
             for i in range(0, len(list2) - 1):
                 sql = (
                     '''UPDATE {tab} SET login_id=%s, id=%s, stud_name=%s, major=%s, state=%s, course=%s, year=%s, subject=%s, code=%s, sub_name=%s, score=%s, grade=%s, grade_num=%s);'''.format(tab=login_id))
@@ -68,9 +68,7 @@ def Insert_DB(score_info, list2, login_id) :
                                  score_info[i][5], score_info[i][6]))
                 conn.commit()
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db error')
-        else:
-            print('other error:', err)
+
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -87,15 +85,6 @@ def Retrieve_DB(tbl_name):  #지금은 출력, 파라미터와 리턴수정해 �
         cur.execute(sql)
         # select 된 결과 셋 얻어오기
         resultList = cur.fetchall()  # tuple 이 들어있는 list
-
-        # DB 에 저장된 rows 출력해보기
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('id or password error')
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print('db error')
-        else:
-            print('other error:', err)
         conn.rollback()  # 롤백 처리
     finally :
         conn.close()
@@ -182,3 +171,7 @@ driver.quit()
 Create_DB(id)
 Insert_DB(score_info, list2, id)
 #Retrieve_DB(id)
+=======
+Create_DB(id)
+Insert_DB(score_info, list2, id)
+#Retrieve_DB()
