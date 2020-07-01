@@ -10,15 +10,15 @@ router.get('/',function (req,res) {
 
 console.log('db connect!');
 router.post('/', function (req, res) {
-    var userID = req.body.userid;
-    var userPW = req.body.password;
+    var yesID = req.body.yesID;
+    var yesPW = req.body.yesPW;
+    var userPW = req.body.userPW;
 
-    mariaDB.query('select * from Users where id=? and password=?',[userID, userPW], function (err, rows) {
+    mariaDB.query('insert into Users (id, password) values (?, ?)',[yesID, userPW], function (err, rows) {
         if (!err){
             if (rows[0]!=undefined){
-                console.log('success');
-                console.log('id : '+ rows[0]['id']);
-                console.log('pw : '+ rows[0]['password']);
+                res.render('index.html');
+
             }
             else{
                 console.log('no data');
@@ -28,6 +28,6 @@ router.post('/', function (req, res) {
             console.log('err: '+ err);
         }
     });
-    res.render('about.html');
+
 });
 module.exports = router;

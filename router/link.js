@@ -71,20 +71,7 @@ module.exports = function(app){
             mariaDB.query(sql1, function (err, rows, fields) {
                 if (!err){
                     if (rows[0]!=undefined){
-                        /*
-                        var value2 = rows[0][0]['sum(score)']; //총 이수학점
-                        var value4 = rows[1][0]['sum(score)'];//공학학점
-                        var value6 = rows[2][0]['sum(score)']; //전공기반
-                        var value8 = rows[3][0]['sum(score)']; //교양
-                        var value1 = rows[4][0]['total'];
-                        var value3 = rows[5][0]['engineering'];
-                        var value5 = rows[6][0]['major'];
-                        var value7 = rows[7][0]['basic'];*/
-                        console.log(rows);
-                        console.log(JSON.stringify(rows));
-                        value = JSON.stringify(rows);
                         res.render('graduate.ejs',{
-                            results: value,
                             results2: rows
                         });
                     }
@@ -174,52 +161,23 @@ module.exports = function(app){
             res.render('index.html');
         }
         else{
-            console.log(req.session.displayName);
-
-            //mariaDB.query()
-            res.render('status.ejs');
-        }
-    })
-
-
-
-    /*
-    router.get('/',function (req,res) {
-
-        if(!req.session.displayName){
-            res.render('login.html');
-        }
-        else{
-            res.render('faq.html');
-        }
-    });
-    router.post('/', function (req, res) {
-        var userID = req.body.userid;
-        var userPW = req.body.password;
-        mariaDB.query('select * from Users where id=? and password=?',[userID, userPW], function (err, rows) {
-            if (!err){
-                if (rows[0]!=undefined){
-                    req.session.displayName = rows[0].id;
-
-                    req.session.save(function(){
-                        res.render('calculator.ejs', {
-                            results: JSON.stringify(rows)
-                        })
-                    })
-                    console.log('id : '+ rows[0]['id']);
-                    console.log('pw : '+ rows[0]['password']);
+            var sql1 = 'select toeic, total, engineering, major, basic from requirement where department=?';
+            mariaDB.query(sql1, [5550],function (err, rows, fields) {
+                if (!err){
+                    if (rows[0]!=undefined){
+                        res.render('status.ejs',{
+                            results2: rows
+                        });
+                    }
+                    else{
+                        console.log('no data');
+                    }
                 }
                 else{
-                    console.log('no data');
+                    console.log('err: '+ err);
                 }
-            }
-            else{
-                console.log('err: '+ err);
-            }
-        });
-        //res.render('calculator.html');
-    });
-
-    */
+            });
+        }
+    })
     return router;
 }

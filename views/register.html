@@ -1,65 +1,57 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+<!-- Mirrored from everytime.kr/login by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 17 May 2020 14:21:13 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
-  <title>학생경력관리시스템</title>
+    <title>학생경력관리시스템</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-
-    <link type="text/css" href="style/register.css" rel="stylesheet">
-  <link type="text/css" href="css/common.css" rel="stylesheet">
-  <link type="text/css" href="css/main.common.css" rel="stylesheet">
-  <link type="text/css" href="css/main.login.css" rel="stylesheet">
-  <link href="images/about/04-1.jpg" rel="shortcut icon">
-  <!--[if lt IE 9]>
-  <script src="/js/extensions.html5shiv.js"></script>
-  <script src="/js/extensions.respond.min.js"></script>
-  <script src="/js/extensions.excanvas.min.js"></script>
-  <![endif]-->
-  <!--[if lt IE 8]>
-  <script src="/js/extensions.json3.min.js"></script>
-  <![endif]-->
-  <script type="text/javascript" src="js/extensions.jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" src="js/extensions.underscore-min.js"></script>
-  <script type="text/javascript" src="js/common.js"></script>
-  <script type="text/javascript" src="js/register.index.js"></script>
+    <link type="text/css" href="css/common.css" rel="stylesheet">
+    <link type="text/css" href="css/main.common.css" rel="stylesheet">
+    <link type="text/css" href="css/main.login.css" rel="stylesheet">
+    <link href="images/about/04-1.jpg" rel="shortcut icon">
+    <!--[if lt IE 9]>
+    <script src="/js/extensions.html5shiv.js"></script>
+    <script src="/js/extensions.respond.min.js"></script>
+    <script src="/js/extensions.excanvas.min.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <script src="/js/extensions.json3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/extensions.jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/extensions.underscore-min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/extensions.jquery.placeholder.min.js"></script>
+    <script type="text/javascript" src="js/main.login.js"></script>
 </head>
 <body>
 
-<form id="container" method="post" action="register" style="
-    height: 510px;
-">    <h2>학생경력관리시스템 회원가입</h2>
-    <p class="description">yes 계정으로 <strong>학생경력관리시스템</strong> 에<br>계정을 연동하여 사용하실 수 있습니다.</p>
-    <h2>계정 연동</h2>
-    <div class="input">
-      <div class="label"><label>yes 계정</label></div>
-      <input type="text" name="yes_id" maxlength="20" placeholder="아이디" autocomplete="off" class="search">
-      <input type="text" name="yes_password" maxlength="20" placeholder="비밀번호" autocomplete="off" class="search">
-    </div>
-    <div class="input">
-      <div class="label"><label>학생경력관리시스템 비밀번호 설정</label></div>
-      <input type="text" name="password" maxlength="20" placeholder="비밀번호" autocomplete="off" class="search">
-      <input type="hidden" name="campus_id">
-    </div>
-    <ol class="campuses"></ol>
-    <input type="submit" value="다음">
-  </form>
+<div id="container" class="login">
+    <form action="register" method="post">
+        <p class="input"><input type="text" name="userID" maxlength="20" class="text" placeholder="yes 아이디"></p>
+        <p class="input"><input type="password" name="userPW" maxlength="20" class="text" placeholder="비밀번호"></p>
+        <input type="hidden" name="redirect" value="/">
+        <p class="submit"><input type="submit" value="로그인" class="text"></p>
+        </p>
+    </form>
+</div>
 
-  <script type="text/javascript">
-    var _serverTime = 1589725228619;
-    var _clientTime = new Date().getTime();
-    var _diffTime = _clientTime - _serverTime;
-    var _apiServerUrl = 'https://api.everytime.kr/';
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
-  <script>
+<!--<script type="text/javascript">
+  var _serverTime = 1589725228185;
+  var _clientTime = new Date().getTime();
+  var _diffTime = _clientTime - _serverTime;
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
+-->
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-22022140-4');
-  </script>
+</script>
 </body>
 
-<!-- Mirrored from everytime.kr/register by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 17 May 2020 14:21:15 GMT -->
+<!-- Mirrored from everytime.kr/login by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 17 May 2020 14:21:15 GMT -->
 </html>
