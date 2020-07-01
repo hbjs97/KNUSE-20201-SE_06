@@ -36,15 +36,18 @@
     google.charts.setOnLoadCallback(drawTable);
 
     function drawTable() {
+
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Name');
-      data.addColumn('number', 'Salary');
-      data.addColumn('boolean', 'Full Time Employee');
+      data.addColumn('string', '과목명');
+      data.addColumn('string', '유형');
+      data.addColumn('string', '학점');
+      data.addColumn('string', '성적');
+
       data.addRows([
-        ['Mike',  {v: 10000, f: '$10,000'}, true],
-        ['Jim',   {v:8000,   f: '$8,000'},  false],
-        ['Alice', {v: 12500, f: '$12,500'}, true],
-        ['Bob',   {v: 7000,  f: '$7,000'},  true]
+        <%var i = 0%>
+        <%while(results2[i]){%>
+        ['<%=results2[i].sub_name%>', '<%=results2[i].subject%>', '<%=results2[i].score%>', '<%=results2[i++].grade%>'],
+        <%}%>
       ]);
 
       var table = new google.visualization.Table(document.getElementById('table_div'));
@@ -61,7 +64,7 @@
   <div class="wrap">
     <div id="logo">
 
-      <p><span class="name single">경북대학교 학생경력관리시스템</span></p>
+      <p><span class="name single"><%-results2[1].score%>,<%-results2[0].score%>경북대학교 학생경력관리시스템</span></p>
     </div>
     <div id="account">
 

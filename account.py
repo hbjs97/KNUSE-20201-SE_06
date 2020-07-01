@@ -1,12 +1,13 @@
 import mysql.connector
 import csv
+import sys
 
 config = {
-    "user": "root",
-    "password": "root",
-    "host": "127.0.0.1",
+    "user": "software",
+    "password": "1q2w3e4r!",
+    "host": "lunapreya.ddns.net",
     "database": "hbjs",
-    "port": "3306"
+    "port": "3307"
 }
 
 
@@ -26,7 +27,7 @@ def db_close():
 
 # account 테이블이 없으면 테이블 생성.
 def is_exist_table():
-    sql = ('create table if not exists account ('
+    sql = ('create table if not exists Users ('
            'id char(20),'
            'pwd char(20)'
            ');'
@@ -36,7 +37,7 @@ def is_exist_table():
 
 # id, pw 기록
 def add_account(id, pw):
-    sql = f'insert into account value ("{id}", "{pw}");'
+    sql = f'insert into Users value ("{id}", "{pw}");'
     cur.execute(sql)
     conn.commit()
 
@@ -49,8 +50,8 @@ if conn is None:
 cur = conn.cursor()
 is_exist_table()
 
-id = input('ID: ')
-pw = input('PW: ')
+id = sys.argv[1]
+pw = sys.argv[2]
 add_account(id, pw)
 
 cur.execute('select * from account')
