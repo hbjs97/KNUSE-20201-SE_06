@@ -1,6 +1,10 @@
 //main router
 
 module.exports = function(app, fs) {
+    var mariaDB = require('./mariadbConn');
+
+    var PythonShell = require('python-shell');
+
 
     app.get('/', function (req, res) {
         if(!req.session.displayName){
@@ -15,8 +19,41 @@ module.exports = function(app, fs) {
             res.render('register.html');
         }
         else{
-            res.render('faq.html');
+            res.render('faqplus.html');
         }
+    });
+    app.post('/register', function (req, res) {
+        var yesID = req.body.userID;
+        var yesPW = req.body.userPW;
+        var password = req.body.userPW;
+        var options ={
+            mode: 'text',
+            pythonPath: '',
+            pythonOptions: '-u',
+            scriptPath: '',
+            args: []
+        };
+        options.args[0] = yesID;
+        options.args[1] = yesPW;
+        options.args[2] = password;
+
+        mariaDB.query('insert into \`Users\` (\`id\`, \`password\`) values (?, ?)',[yesID, password], function (err, rows) {
+            if (!err){
+                if (rows[0]!=undefined){
+                    console.log(yesID);
+                    console.log(password);
+                    res.render('index.html');
+
+                }
+                else{
+                    console.log('no data');
+                }
+            }
+            else{
+                console.log('err: '+ err);
+            }
+        });
+        res.render('index.html');
     });
     app.get('/faq', function (req, res) {
         if(!req.session.displayName){

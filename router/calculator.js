@@ -15,26 +15,8 @@ router.get('/',function (req,res) {
         res.render('login.html');
     }
     else{
-        var userID = 'ungmo2';
-        var userPW = '1234';
-        mariaDB.query('select * from Users where id=? and password=?',[userID, userPW], function (err, rows, result) {
-            if (!err){
-                if (rows[0]!=undefined){
-                    res.render('calculator.ejs', {
-                        results: JSON.stringify(rows)
-                    })
-                    console.log(result);
+        res.render('calculator.ejs');
 
-                }
-                else{
-                    console.log('no data');
-                }
-            }
-            else{
-                console.log('err: '+ err);
-            }
-        });
-        //res.render('calculator.html');
     }
 });
 router.post('/', function (req, res){

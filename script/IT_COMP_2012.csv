@@ -1,5 +1,0 @@
-﻿name,goal,rule
-전체,150,select sum(score) from test
-기본소양,15,select sum(score) from test where subject='기본소양'
-전공기반,22,select sum(score) from test where subject='전공기반'
-공학전공,75,select sum(score) from test where subject='공학전공'

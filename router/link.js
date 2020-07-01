@@ -62,6 +62,45 @@ module.exports = function(app){
             res.render('parsinglogin2.ejs');
         }
     })
+    app.get('/link/graduate', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            var sql1 = 'select sub_name, subject, score, grade from '+req.session.displayName;
+            mariaDB.query(sql1, function (err, rows, fields) {
+                if (!err){
+                    if (rows[0]!=undefined){
+                        res.render('graduate.ejs',{
+                            results2: rows
+                        });
+                    }
+                    else{
+                        console.log('no data');
+                    }
+                }
+                else{
+                    console.log('err: '+ err);
+                }
+            });
+        }
+    })
+    app.get('/link/calculator', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('calculator.ejs');
+        }
+    })
+    app.get('/link/nonsubject', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('nonsubject.ejs');
+        }
+    })
     app.post('/parsinglogin', function (req, res) {
 
         var userID = req.body.userid;
@@ -120,7 +159,7 @@ module.exports = function(app){
                 }
                 else{
                     console.log('err: '+ err);
-                    res.render('faqplus.html');
+                    res.render('score.ejs');
                 }
             });
         }
@@ -130,52 +169,23 @@ module.exports = function(app){
             res.render('index.html');
         }
         else{
-            console.log(req.session.displayName);
-
-            //mariaDB.query()
-            res.render('status.ejs');
-        }
-    })
-
-
-
-    /*
-    router.get('/',function (req,res) {
-
-        if(!req.session.displayName){
-            res.render('login.html');
-        }
-        else{
-            res.render('faq.html');
-        }
-    });
-    router.post('/', function (req, res) {
-        var userID = req.body.userid;
-        var userPW = req.body.password;
-        mariaDB.query('select * from Users where id=? and password=?',[userID, userPW], function (err, rows) {
-            if (!err){
-                if (rows[0]!=undefined){
-                    req.session.displayName = rows[0].id;
-
-                    req.session.save(function(){
-                        res.render('calculator.ejs', {
-                            results: JSON.stringify(rows)
-                        })
-                    })
-                    console.log('id : '+ rows[0]['id']);
-                    console.log('pw : '+ rows[0]['password']);
+            var sql1 = 'select toeic, total, engineering, major, basic from requirement where department=?';
+            mariaDB.query(sql1, [5550],function (err, rows, fields) {
+                if (!err){
+                    if (rows[0]!=undefined){
+                        res.render('status.ejs',{
+                            results2: rows
+                        });
+                    }
+                    else{
+                        console.log('no data');
+                    }
                 }
                 else{
-                    console.log('no data');
+                    console.log('err: '+ err);
                 }
-            }
-            else{
-                console.log('err: '+ err);
-            }
-        });
-        //res.render('calculator.html');
-    });
-
-    */
+            });
+        }
+    })
     return router;
 }
