@@ -93,6 +93,14 @@ module.exports = function(app){
             res.render('calculator.ejs');
         }
     })
+    app.get('/link/nonsubject', function (req, res) {
+        if(!req.session.displayName){
+            res.render('index.html');
+        }
+        else{
+            res.render('nonsubject.ejs');
+        }
+    })
     app.post('/parsinglogin', function (req, res) {
 
         var userID = req.body.userid;
