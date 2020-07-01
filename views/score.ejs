@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<!-- Mirrored from everytime.kr/page/faq?category=account by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Jun 2020 02:25:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>경북대학교 학생경력관리시스템</title>
+  <meta charset="utf-8">
+  <meta name="referrer" content="origin">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta property="fb:app_id" content="258676027581965">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/about/04-1.jpg">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link type="text/css" href="../css/common.css" rel="stylesheet">
+  <link type="text/css" href="../css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="../css/container.faq.css" rel="stylesheet">
+  <link rel="shortcut icon" href="images/about/04-1.jpg">
+
+  <!--[if lt IE 9]>
+  <script src="/js/extensions.html5shiv.js"></script>
+  <script src="/js/extensions.respond.min.js"></script>
+  <script src="/js/extensions.excanvas.min.js"></script>
+  <![endif]-->
+  <!--[if lt IE 8]>
+  <script src="/js/extensions.json3.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="../js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="../js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript" src="../js/page.faq.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+
+    var total1 = <%-results1%>;
+    if(!total1)
+      total1=0;
+    var total2 = <%-results2%>;
+    if(!total2)
+      total2=0;
+    var eng1 = <%-results3%>;
+    if(!eng1)
+      eng1=0;
+    var eng2 = <%-results4%>;
+    if(!eng2)
+      eng2=0;
+    var jun1 = <%-results5%>;
+    if(!jun1)
+      jun1=0;
+    var jun2 = <%-results6%>;
+    if(!jun2)
+      jun2=0;
+    var gi1 = <%-results7%>;
+    if(!gi1)
+      gi1=0;
+    var gi2 = <%-results8%>;
+    if(!gi2)
+      gi2=0;
+</script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['학점', '전체학점', '이수학점', ''],
+        ['전체학점', total1, total2, 0],
+        ['공학전공', eng1, eng2, 0],
+        ['전공기반', jun1, jun2, 0],
+        ['교양', gi1, gi2, 0]
+      ]);
+
+      var options = {
+        chart: {
+          title: '',
+          subtitle: '',
+        }
+      };
+
+      var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+  </script>
+
+
+
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div id="logo">
+
+      <p><span class="name single">경북대학교 학생경력관리시스템</span></p>
+    </div>
+    <div id="account">
+
+    </div>
+    <ul id="menu">
+      <li><a href="../about">소개</a></li>
+      <li class ="active"><a href="/link">메인화면</a></li>
+      <li><a href="../faq">Q&A</a></li>
+      <li><a href="../logout">로그아웃</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="container" class="faq">
+  <aside class="big">
+    <div class="title">
+      <a class="hamburger"></a>
+      <h1>학생경력관리시스템</h1>
+    </div>
+    <div class="menu">
+      <ol>
+        <li><a href="about">소개</a></li>
+        <li class="active"><a href="/link">메인화면</a></li>
+      </ol>
+    </div>
+  </aside>
+  <div class="wrap">
+
+    <div class="type">
+      <h3>이수현황</h3>
+      <dl>
+        <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+      </dl>
+    </div>
+
+
+
+
+
+
+  </div>
+  <hr>
+</div>
+
+<script type="text/javascript">
+  var _serverTime = 1593483950386;
+  var _clientTime = new Date().getTime();
+  var _diffTime = _clientTime - _serverTime;
+  var _apiServerUrl = 'https://api.everytime.kr/';
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-22022140-4');
+</script>
+</body>
+
+<!-- Mirrored from everytime.kr/page/faq?category=account by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Jun 2020 02:25:58 GMT -->
+</html>

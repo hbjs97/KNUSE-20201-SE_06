@@ -10,12 +10,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 config = {
-        "user": "software",
-        "password": "1q2w3e4r!",
-        "host": "lunapreya.ddns.net",
-        "database": "hbjs",
-        "port": "3307"
-    }
+    "user": "software",
+    "password": "1q2w3e4r!",
+    "host": "lunapreya.ddns.net",
+    "database": "hbjs",
+    "port": "3307"
+}
 
 def Create_DB(tbl_name):
     try:
@@ -132,9 +132,9 @@ advc = soup.select_one('.form4 td').text
 driver.get('https://yes.knu.ac.kr/cour/scor/certRec/certRecEnq/list.action')
 try:
     WebDriverWait(driver, 10).until(
-         EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.title")))
+        EC.presence_of_element_located((By.CSS_SELECTOR, "#certRecEnqGrid > div.title")))
 except TimeoutException:
-    #print("Time out")
+    print("Time out")
 html = driver.page_source
 soup = bs(html, 'html.parser')
 
