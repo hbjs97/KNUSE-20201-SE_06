@@ -21,7 +21,6 @@ def Create_DB(tbl_name):
     try:
         conn = mysql.connector.connect(**config, charset='utf8')
         cur = conn.cursor()
-        print("Creating table test: ")
         cur.execute(
             '''CREATE TABLE {tab} (
              login_id VARCHAR(50),
@@ -39,13 +38,17 @@ def Create_DB(tbl_name):
              grade_num VARCHAR(50),
              PRIMARY KEY(id, code) );'''.format(tab=tbl_name)
         )
-    except mysql.connector.Error as err:
+    except mysql.connector.Error as err:    #table 이미 존재하면 내용비움
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-            print("already exists.")
+            conn = mysql.connector.connect(**config, charset='utf8')
+            cur = conn.cursor()
+            cur.execute(
+                '''
+                TRUNCATE TABLE {tab}
+                '''.format(tab=tbl_name)
+            )
         else:
             print(err.msg)
-    else:
-        print("OK")
 
 def Insert_DB(score_info, list2, login_id) :
     try :
@@ -53,12 +56,10 @@ def Insert_DB(score_info, list2, login_id) :
         conn = mysql.connector.connect(**config, charset='utf8')
         # SQL 실행 객체 생성
         cur = conn.cursor()
+
         for i in range(0, len(list2)-1):
             sql = '''INSERT INTO {tab} (login_id, id, stud_name, major, state, course, year, subject, code, sub_name, score, grade, grade_num) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON DUPLICATE KEY UPDATE
-            login_id = VALUES(login_id), id = VALUES(id), stud_name=VALUES(stud_name), major=VALUES(major), state=VALUES(state), course=VALUES(course),
-            year=VALUES(year), subject=VALUES(subject), code = VALUES(code), sub_name=VALUES(sub_name), score=VALUES(score), grade=VALUES(grade), grade_num=VALUES(grade_num)
             '''.format(tab=login_id)
             cur.execute(sql, (login_id, stud_info[0], stud_info[1], stud_info[2], stud_info[3], stud_info[4], score_info[i][0], score_info[i][1], score_info[i][2], score_info[i][3], int(score_info[i][4]), score_info[i][5], score_info[i][6]))
             conn.commit()
